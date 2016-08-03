@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="keywords" content="chat,websocket,TreeFrog Framework" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
+<title>Public Chat Room | WebSocket Sample</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+function escapeHtml(text) {
+    return text.replace(/["&'<>\n\r]/g,
+        function(ch) { return { '"':'&quot;', '&':'&amp;', '\'':'&#39;', '<':'&lt;', '>':'&gt;', '\n':'<br>', '\r':'<br>' }[ ch ]; });
+}
+
+$(function(){
+    // create WebSocket
+    ws = new WebSocket("ws://" + location.host + "/chat");
+ 
+    // message received
+    ws.onmessage = function(message){
+        var msg = escapeHtml(message.data);
+        $("#log").append("<p>" + msg + "</p>");
+        // scroll to bottom
+        scrollToBottom();
+    }
+ 
+    // error event
+    ws.onerror = function(){
+        $("#log").append("<p style='color: red;'>[ Error occurred. Try reloading. ]</p>");
+        scrollToBottom();
+    }
+ 
+    // onclose event
+    ws.onclose = function(){
+        $("#log").append("<p style='color: red;'>[ Connection closed. Try reloading. ]</p>");
+        scrollToBottom();
+    }
+});
+
+
+function scrollToBottom() {
+        $("#log").stop();
+        $("#log").animate({scrollTop: $("#log")[0].scrollHeight}, 1000);
+}
+
+function sendMessage() {
+    if ($('#msg').val() != '') {
+        var name = $.trim($('#name').val());
+        if (name == '') {
+	        name = "(I'm John Doe)";
+        }
+        name += ' : ' + (new Date()).toISOString() + '\n';
+        ws.send(name + $('#msg').val());
+        $('#msg').val(''); // clear
+    }
+}
+</script>
+</head>
+<body style="background-image: url('images/background.png');">
+<h2>Chat Room Sample</h2>
+<p>HTML5 WebSocket sample application. <br>It's efficient to send many clients small messages and also not need to poll server.<br>
+No plugin, browser only.</p>
+<div id="log" style="border: 1px solid #beccea; padding: 6px; background-color: ivory; max-width: 900px; max-height: 480px; overflow: auto;"></div>
+<br>
+Name  <input type="text" id="name" style="width: 120px;" /> <span style="margin-right: 6em;"></span>
+<input type="button" value="Write" onclick="sendMessage()" /><br>
+<textarea id="msg" rows="4" style="width: 320px;"></textarea>
+<br><br>
+<p>Powered by <a href="http://www.treefrogframework.org" target="_blank">TreeFrog Framework</a></p>
+</body>
+</html>
