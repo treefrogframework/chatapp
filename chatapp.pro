@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = helpers models controllers
+SUBDIRS = helpers models views controllers

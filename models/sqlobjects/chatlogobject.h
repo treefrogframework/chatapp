@@ -8,10 +8,10 @@
 class T_MODEL_EXPORT ChatLogObject : public TSqlObject, public QSharedData
 {
 public:
-    int id;
+    int id {0};
     QString message;
     QString updated_at;
-    int lock_revision;
+    int lock_revision {0};
 
     enum PropertyIndex {
         Id = 0,
@@ -20,9 +20,9 @@ public:
         LockRevision,
     };
 
-    int primaryKeyIndex() const { return Id; }
-    int autoValueIndex() const { return Id; }
-    QString tableName() const { return QLatin1String("chat_log"); }
+    int primaryKeyIndex() const override { return Id; }
+    int autoValueIndex() const override { return Id; }
+    QString tableName() const override { return QLatin1String("chat_log"); }
 
 private:    /*** Don't modify below this line ***/
     Q_OBJECT
