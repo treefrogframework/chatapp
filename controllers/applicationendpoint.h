@@ -7,6 +7,7 @@
 class T_CONTROLLER_EXPORT ApplicationEndpoint : public TWebSocketEndpoint
 {
 public:
+    Q_INVOKABLE
     ApplicationEndpoint();
     ApplicationEndpoint(const ApplicationEndpoint &other);
     virtual ~ApplicationEndpoint() { }

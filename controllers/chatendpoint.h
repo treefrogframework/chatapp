@@ -6,6 +6,7 @@
 class T_CONTROLLER_EXPORT ChatEndpoint : public ApplicationEndpoint
 {
 public:
+    Q_INVOKABLE
     ChatEndpoint() { }
     ChatEndpoint(const ChatEndpoint &other);
 
