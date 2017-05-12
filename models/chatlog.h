@@ -28,10 +28,10 @@ public:
     int lockRevision() const;
     ChatLog &operator=(const ChatLog &other);
 
-    bool create() { return TAbstractModel::create(); }
-    bool update() { return TAbstractModel::update(); }
-    bool save()   { return TAbstractModel::save(); }
-    bool remove() { return TAbstractModel::remove(); }
+    bool create() override { return TAbstractModel::create(); }
+    bool update() override { return TAbstractModel::update(); }
+    bool save()   override { return TAbstractModel::save(); }
+    bool remove() override { return TAbstractModel::remove(); }
 
     static ChatLog create(const QString &message);
     static ChatLog create(const QVariantMap &values);
@@ -45,10 +45,12 @@ public:
 private:
     QSharedDataPointer<ChatLogObject> d;
 
-    TModelObject *modelData();
-    const TModelObject *modelData() const;
+    TModelObject *modelData() override;
+    const TModelObject *modelData() const override;
 };
 
+QDataStream &operator<<(QDataStream &ds, const ChatLog &model);
+QDataStream &operator>>(QDataStream &ds, ChatLog &model);
 Q_DECLARE_METATYPE(ChatLog)
 Q_DECLARE_METATYPE(QList<ChatLog>)
 

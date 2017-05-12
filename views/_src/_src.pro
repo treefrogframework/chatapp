@@ -1,13 +1,16 @@
 TARGET = view
 TEMPLATE = lib
 CONFIG += shared c++11 x86_64
-QT += network xml
+QT += network xml qml
 QT -= gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += qml
 DEFINES += TF_DLL
+DESTDIR = ../../lib
 INCLUDEPATH += ../../helpers ../../models
 DEPENDPATH  += ../../helpers ../../models
-DESTDIR = ../../lib
 LIBS += -L../../lib -lhelper -lmodel
+MOC_DIR = .obj/
+OBJECTS_DIR = .obj/
 QMAKE_CLEAN = *.cpp source.list
 
 tmake.target = source.list

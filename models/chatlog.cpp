@@ -3,7 +3,7 @@
 #include "chatlogobject.h"
 
 ChatLog::ChatLog()
-    : TAbstractModel(), d(new ChatLogObject)
+    : TAbstractModel(), d(new ChatLogObject())
 {
     d->id = 0;
     d->lock_revision = 0;
@@ -100,18 +100,18 @@ QList<ChatLog> ChatLog::getAll()
     return tfGetModelListByCriteria<ChatLog, ChatLogObject>(TCriteria(), ChatLogObject::Id, Tf::AscendingOrder);
 }
 
-// QJsonArray ChatLog::getAllJson()
-// {
-//     QJsonArray array;
-//     TSqlORMapper<ChatLogObject> mapper;
-
-//     if (mapper.find() > 0) {
-//         for (TSqlORMapperIterator<ChatLogObject> i(mapper); i.hasNext(); ) {
-//             array.append(QJsonValue(QJsonObject::fromVariantMap(ChatLog(i.next()).toVariantMap())));
-//         }
-//     }
-//     return array;
-// }
+//QJsonArray ChatLog::getAllJson()
+//{
+//    QJsonArray array;
+//    TSqlORMapper<ChatLogObject> mapper;
+//
+//    if (mapper.find() > 0) {
+//        for (TSqlORMapperIterator<ChatLogObject> i(mapper); i.hasNext(); ) {
+//            array.append(QJsonValue(QJsonObject::fromVariantMap(ChatLog(i.next()).toVariantMap())));
+//        }
+//    }
+//    return array;
+//}
 
 void ChatLog::removeOldLogs(int remainingCount)
 {
@@ -136,3 +136,21 @@ const TModelObject *ChatLog::modelData() const
 {
     return d.data();
 }
+
+QDataStream &operator<<(QDataStream &ds, const ChatLog &model)
+{
+    auto varmap = model.toVariantMap();
+    ds << varmap;
+    return ds;
+}
+
+QDataStream &operator>>(QDataStream &ds, ChatLog &model)
+{
+    QVariantMap varmap;
+    ds >> varmap;
+    model.setProperties(varmap);
+    return ds;
+}
+
+// Don't remove below this line
+T_REGISTER_STREAM_OPERATORS(ChatLog)
