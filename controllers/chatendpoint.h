@@ -5,16 +5,17 @@
 
 class T_CONTROLLER_EXPORT ChatEndpoint : public ApplicationEndpoint
 {
+    Q_OBJECT
 public:
     Q_INVOKABLE
-    ChatEndpoint() { }
+    ChatEndpoint() : ApplicationEndpoint() {}
     ChatEndpoint(const ChatEndpoint &other);
 
 protected:
-    bool onOpen(const TSession &session);
-    void onClose(int closeCode);
-    void onTextReceived(const QString &text);
-    void onBinaryReceived(const QByteArray &binary);
+    bool onOpen(const TSession &session) override;
+    void onClose(int closeCode) override;
+    void onTextReceived(const QString &text) override;
+    void onBinaryReceived(const QByteArray &binary) override;
 };
 
 T_DECLARE_CONTROLLER(ChatEndpoint, chatendpoint)
