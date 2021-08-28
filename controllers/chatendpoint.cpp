@@ -4,10 +4,6 @@
 #define TOPIC_NAME "foo"
 
 
-ChatEndpoint::ChatEndpoint(const ChatEndpoint &)
-    : ApplicationEndpoint()
-{ }
-
 bool ChatEndpoint::onOpen(const TSession &)
 {
     subscribe(TOPIC_NAME);
@@ -40,6 +36,5 @@ void ChatEndpoint::onTextReceived(const QString &text)
 void ChatEndpoint::onBinaryReceived(const QByteArray &)
 { }
 
-
 // Don't remove below this line
-T_REGISTER_CONTROLLER(chatendpoint)
+T_DEFINE_CONTROLLER(ChatEndpoint)
